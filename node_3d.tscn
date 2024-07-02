@@ -1,3 +1,15 @@
-[gd_scene format=3 uid="uid://bjh0q4jadsj87"]
+[gd_scene load_steps=3 format=3 uid="uid://bjh0q4jadsj87"]
+
+[ext_resource type="Script" path="res://scripts/Character.gd" id="1_5okn3"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_j4ckw"]
 
 [node name="Node3D" type="Node3D"]
+
+[node name="Character" type="Node3D" parent="."]
+script = ExtResource("1_5okn3")
+
+[node name="Model" type="MeshInstance3D" parent="Character"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_j4ckw")
+skeleton = NodePath("../..")
