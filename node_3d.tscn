@@ -1,15 +1,21 @@
 [gd_scene load_steps=3 format=3 uid="uid://bjh0q4jadsj87"]
 
-[ext_resource type="Script" path="res://scripts/Character.gd" id="1_5okn3"]
+[ext_resource type="Script" path="res://scripts/Character.cs" id="1_yfboe"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_j4ckw"]
 
 [node name="Node3D" type="Node3D"]
 
 [node name="Character" type="Node3D" parent="."]
-script = ExtResource("1_5okn3")
+script = ExtResource("1_yfboe")
 
 [node name="Model" type="MeshInstance3D" parent="Character"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_j4ckw")
 skeleton = NodePath("../..")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0239, 2.63795)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 0.31071, 0.950505, 0, -0.950505, 0.31071, 0, 2.5578, 0)
