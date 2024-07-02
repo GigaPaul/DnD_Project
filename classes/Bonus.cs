@@ -3,11 +3,11 @@ using System;
 
 public partial class Bonus
 {
-    public Ability.Type type;
+    public Masterable.Type type;
     public int bonus;
     public bool show;
 
-    public Bonus(Ability.Type type, int bonus, bool show = true)
+    public Bonus(Masterable.Type type, int bonus, bool show = true)
     {
         this.type = type;
         this.bonus = bonus;

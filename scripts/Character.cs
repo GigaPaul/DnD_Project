@@ -9,23 +9,16 @@ public partial class Character : Node3D
 	public override void _Ready()
 	{
 		statBlock = new("Roturier", charisma: 8);
+        GD.Print(statBlock.IsProficientIn(Masterable.Type.intimidation));
 
-		Bonus bonusCha = new(Ability.Type.charisma, 5);
-		statBlock.bonus.Add(bonusCha);
-        int charismaSc = statBlock.GetScore(Ability.Type.charisma);
-		int charismaMod = statBlock.GetModifier(Ability.Type.charisma);
-		GD.Print($"{Ability.GetName(Ability.Type.charisma)} : {charismaSc} => {charismaMod}");
+		Masterable charisma = Masterable.Get(Masterable.Type.charisma);
+		GD.Print($"{charisma.name} : {statBlock.GetScore(Masterable.Type.charisma)} => {statBlock.GetModifier(Masterable.Type.charisma)}");
 
-		int intimidationSc = statBlock.GetScore(Skill.Type.intimidation);
-		int intimidationMod = statBlock.GetModifier(Skill.Type.intimidation);
-		GD.Print($"{Skill.GetName(Skill.Type.intimidation)} : {intimidationSc} => {intimidationMod}");
+		Masterable intimidation = Masterable.Get(Masterable.Type.intimidation);
+		GD.Print($"{intimidation.name} : {statBlock.GetScore(Masterable.Type.intimidation)} => {statBlock.GetModifier(Masterable.Type.intimidation)}");
 
-
-		Bonus bonusCon = new(Ability.Type.constitution, -5);
-		statBlock.bonus.Add(bonusCon);
-		int conSc = statBlock.GetScore(Ability.Type.constitution);
-		int conMod = statBlock.GetModifier(Ability.Type.constitution);
-		GD.Print($"Constitution : {conSc} => {conMod}");
+		Masterable constitution = Masterable.Get(Masterable.Type.constitution);
+		GD.Print($"{constitution.name} : {statBlock.GetScore(Masterable.Type.constitution)} => {statBlock.GetModifier(Masterable.Type.constitution)}");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -33,4 +26,14 @@ public partial class Character : Node3D
 	{
 
 	}
+
+	//public int RollFor(Ability ability, bool isSave = false)
+ //   {
+	//	return 0;
+ //   }
+
+	//public int RollFor(Skill skill, bool isSave = false)
+ //   {
+	//	return 0;
+ //   }
 }

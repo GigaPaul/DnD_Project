@@ -7,52 +7,79 @@ public partial class StatBlock
 {
     public string name;
     public List<Bonus> bonus = new();
-    public Dictionary<Ability.Type, int> abilities;
-    public List<Skill.Type> proficiencies = new();
+    public Dictionary<Masterable, int> capabilities;
+    public Dictionary<Masterable.Type, bool> proficiencies = new();
 
 
-    public StatBlock(string name, int strength = 10, int dexterity = 10, int constitution = 10, int intelligence = 10, int wisdom = 10, int charisma = 10)
+    public StatBlock(string name = "Unamed", int strength = 10, int dexterity = 10, int constitution = 10, int intelligence = 10, int wisdom = 10, int charisma = 10)
     {
         this.name = name;
 
-        abilities = new()
+        
+
+        capabilities = new()
         {
-            { Ability.Type.strength, strength },
-            { Ability.Type.dexterity, dexterity },
-            { Ability.Type.constitution, constitution },
-            { Ability.Type.intelligence, intelligence },
-            { Ability.Type.wisdom, wisdom },
-            { Ability.Type.charisma, charisma }
+            { Masterable.Get(Masterable.Type.strength), strength },
+            { Masterable.Get(Masterable.Type.dexterity), dexterity },
+            { Masterable.Get(Masterable.Type.constitution), constitution },
+            { Masterable.Get(Masterable.Type.intelligence), intelligence },
+            { Masterable.Get(Masterable.Type.wisdom), wisdom },
+            { Masterable.Get(Masterable.Type.charisma), charisma }
         };
 
-        proficiencies.Add(Skill.Type.intimidation);
+
+        int count = Enum.GetNames(typeof(Masterable)).Length;
+        List<Masterable.Type> isProficientIn = new()
+        {
+            { Masterable.Type.intimidation }
+        };
+
+        for(int i = 0; i < count; i++)
+        {
+            Masterable.Type type = (Masterable.Type)i;
+            bool isProficient = isProficientIn.Contains(type);
+            proficiencies.Add(type, isProficient);
+        }
     }
 
 
 
 
 
-    public int GetScore(Ability.Type ability)
+    public int GetScore(Masterable.Type type)
     {
-        int baseScore = abilities[ability];
-        List<int> bonusList = bonus.Where(e => e.type == ability).Select(e => e.bonus).ToList();
+        Masterable masterable = Masterable.Get(type);
+        int score;
+
+        if(masterable.IsSkill())
+        {
+            score = GetSkillScore(masterable);
+        }
+        else
+        {
+            score = GetAbilityScore(masterable);
+        }
+
+        return score;
+    }
+
+    public int GetAbilityScore(Masterable masterable)
+    {
+        int baseScore = capabilities[masterable];
+        List<int> bonusList = bonus.Where(e => e.type == masterable.type).Select(e => e.bonus).ToList();
 
         int score = GetScore(baseScore, bonusList);
 
         return score;
     }
 
-
-
-
-
-    public int GetScore(Skill.Type skill)
+    public int GetSkillScore(Masterable masterable)
     {
-        Ability.Type parent = Skill.GetParent(skill);
+        Masterable.Type parent = (Masterable.Type)masterable.parent;
 
         int score = 10;
         int parentModifier = GetModifier(parent);
-        int proficiency = GetProficiencyBonus(skill);
+        int proficiency = GetProficiencyBonus(masterable.type);
 
         score += parentModifier * 2 + proficiency * 2;
 
@@ -77,24 +104,11 @@ public partial class StatBlock
 
 
 
-    public int GetModifier(Ability.Type ability)
+    public int GetModifier(Masterable.Type type)
     {
-        int score = GetScore(ability);
+        int score = GetScore(type);
 
         return GetModifier(score);
-    }
-
-
-
-
-
-    public int GetModifier(Skill.Type skill)
-    {
-        int score = GetScore(skill);
-        int modifier = GetModifier(score);
-        //int proficiency = GetProficiencyBonus(skill);
-
-        return modifier;
     }
 
 
@@ -110,7 +124,7 @@ public partial class StatBlock
 
 
 
-    public int GetProficiencyBonus(Skill.Type type)
+    public int GetProficiencyBonus(Masterable.Type type)
     {
         int proficiency = 0;
 
@@ -126,8 +140,9 @@ public partial class StatBlock
 
 
 
-    public bool IsProficientIn(Skill.Type skill)
+    // Proficiency Bool
+    public bool IsProficientIn(Masterable.Type skill)
     {
-        return proficiencies.Contains(skill);
+        return proficiencies[skill];
     }
 }
