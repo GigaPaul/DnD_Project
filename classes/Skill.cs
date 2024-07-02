@@ -2,12 +2,12 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class Skill
+public partial class Skill : Ability
 {
     private static Dictionary<Type, string> names;
     private static Dictionary<Type, Ability.Type> parents;
 
-    public enum Type
+    new public enum Type
     {
         acrobatics,
         animalHandling,
@@ -31,6 +31,16 @@ public partial class Skill
 
     static Skill()
     {
+        InitNames();
+        InitParents();
+    }
+
+
+
+
+
+    private static void InitNames()
+    {
         names = new()
         {
             { Type.acrobatics, "Acrobaties" },
@@ -52,7 +62,14 @@ public partial class Skill
             { Type.stealth, "Discrétion" },
             { Type.survival, "Survie" }
         };
+    }
 
+
+
+
+
+    private static void InitParents()
+    {
         parents = new()
         {
             { Type.acrobatics, Ability.Type.dexterity },
@@ -76,10 +93,18 @@ public partial class Skill
         };
     }
 
+
+
+
+
     public static string GetName(Type type)
     {
         return names[type];
     }
+
+
+
+
 
     public static Ability.Type GetParent(Type type)
     {

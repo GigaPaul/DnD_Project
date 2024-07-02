@@ -14,11 +14,11 @@ public partial class Character : Node3D
 		statBlock.bonus.Add(bonusCha);
         int charismaSc = statBlock.GetScore(Ability.Type.charisma);
 		int charismaMod = statBlock.GetModifier(Ability.Type.charisma);
-		GD.Print($"Charisme : {charismaSc} => {charismaMod}");
+		GD.Print($"{Ability.GetName(Ability.Type.charisma)} : {charismaSc} => {charismaMod}");
 
 		int intimidationSc = statBlock.GetScore(Skill.Type.intimidation);
 		int intimidationMod = statBlock.GetModifier(Skill.Type.intimidation);
-		GD.Print($"Intimidation : {intimidationSc} => {intimidationMod}");
+		GD.Print($"{Skill.GetName(Skill.Type.intimidation)} : {intimidationSc} => {intimidationMod}");
 
 
 		Bonus bonusCon = new(Ability.Type.constitution, -5);

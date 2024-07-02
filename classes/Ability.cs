@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public partial class Ability
 {
+    private static Dictionary<Type, string> names;
     public enum Type
     {
         strength,
@@ -14,9 +15,16 @@ public partial class Ability
         charisma
     }
 
-    private static Dictionary<Type, string> names;
-
     static Ability()
+    {
+        InitNames();
+    }
+
+
+
+
+
+    private static void InitNames()
     {
         names = new()
         {
@@ -28,6 +36,10 @@ public partial class Ability
             { Type.charisma, "Charisme" }
         };
     }
+
+
+
+
 
     public static string GetName(Type type)
     {
