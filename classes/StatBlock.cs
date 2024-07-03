@@ -5,12 +5,24 @@ using System.Linq;
 
 public partial class StatBlock
 {
+    // = CONSTS =
+    public readonly List<Bonus> bonus = new();
+    public readonly Dictionary<Masterable.Type, int> capabilities = new();
+    public readonly Dictionary<Masterable.Type, bool> proficiencies = new();
+
+
+
+
+
+    // = VARIABLES =
     public string name;
-    public List<Bonus> bonus = new();
-    public Dictionary<Masterable, int> capabilities;
-    public Dictionary<Masterable.Type, bool> proficiencies = new();
+    public int ProficiencyBonus;
 
 
+
+
+
+    // = CONSTRUCTORS =
     public StatBlock(string name = "Unamed", int strength = 10, int dexterity = 10, int constitution = 10, int intelligence = 10, int wisdom = 10, int charisma = 10)
     {
         this.name = name;
@@ -19,21 +31,21 @@ public partial class StatBlock
 
         capabilities = new()
         {
-            { Masterable.Get(Masterable.Type.strength),     strength },
-            { Masterable.Get(Masterable.Type.dexterity),    dexterity },
-            { Masterable.Get(Masterable.Type.constitution), constitution },
-            { Masterable.Get(Masterable.Type.intelligence), intelligence },
-            { Masterable.Get(Masterable.Type.wisdom),       wisdom },
-            { Masterable.Get(Masterable.Type.charisma),     charisma }
+            { Masterable.Type.strength,     strength },
+            { Masterable.Type.dexterity,    dexterity },
+            { Masterable.Type.constitution, constitution },
+            { Masterable.Type.intelligence, intelligence },
+            { Masterable.Type.wisdom,       wisdom },
+            { Masterable.Type.charisma,     charisma }
         };
 
 
-        int count = Enum.GetNames(typeof(Masterable.Type)).Length;
         List<Masterable.Type> isProficientIn = new()
         {
             { Masterable.Type.intimidation }
         };
 
+        int count = Enum.GetNames(typeof(Masterable.Type)).Length;
         for(int i = 0; i < count; i++)
         {
             Masterable.Type type = (Masterable.Type)i;
@@ -46,18 +58,20 @@ public partial class StatBlock
 
 
 
+    // = METHODS =
+    // Public methods
     public int GetScore(Masterable.Type type)
     {
-        Masterable masterable = Masterable.Get(type);
+        Masterable masterable = Masterable.global[type];
         int score;
 
-        if(masterable.IsSkill())
+        if (masterable.IsSkill())
         {
-            score = GetSkillScore(masterable);
+            score = GetSkillScore(type);
         }
         else
         {
-            score = GetAbilityScore(masterable);
+            score = GetAbilityScore(type);
         }
 
         return score;
@@ -67,10 +81,10 @@ public partial class StatBlock
 
 
 
-    public int GetAbilityScore(Masterable masterable)
+    public int GetAbilityScore(Masterable.Type type)
     {
-        int baseScore = capabilities[masterable];
-        List<int> bonusList = bonus.Where(e => e.type == masterable.type).Select(e => e.bonus).ToList();
+        int baseScore = capabilities[type];
+        List<int> bonusList = bonus.Where(e => e.type == type).Select(e => e.bonus).ToList();
 
         int score = GetScore(baseScore, bonusList);
 
@@ -81,31 +95,17 @@ public partial class StatBlock
 
 
 
-    public int GetSkillScore(Masterable masterable)
+    public int GetSkillScore(Masterable.Type type)
     {
-        Masterable.Type parent = (Masterable.Type)masterable.parent;
+        Masterable.Type parentType = (Masterable.Type)Masterable.global[type].parent;
 
         int score = 10;
-        int parentModifier = GetModifier(parent);
-        int proficiency = GetProficiencyBonus(masterable.type);
+        int parentModifier = GetModifier(parentType);
+        int proficiency = GetProficiencyBonus(type);
 
         score += parentModifier * 2 + proficiency * 2;
 
         return score;
-    }
-
-
-
-
-
-    public static int GetScore(int baseScore, List<int> bonusList)
-    {
-        for (int i = 0; i < bonusList.Count; i++)
-        {
-            baseScore += bonusList[i];
-        }
-
-        return baseScore;
     }
 
 
@@ -123,20 +123,11 @@ public partial class StatBlock
 
 
 
-    public static int GetModifier(int score)
-    {
-        return (int)Math.Floor((score - 10) / 2f);
-    }
-
-
-
-
-
     public int GetProficiencyBonus(Masterable.Type type)
     {
         int proficiency = 0;
 
-        if(IsProficientIn(type))
+        if (IsProficientIn(type))
         {
             proficiency = 2;
         }
@@ -148,9 +139,36 @@ public partial class StatBlock
 
 
 
-    // Proficiency Bool
     public bool IsProficientIn(Masterable.Type skill)
     {
         return proficiencies[skill];
+    }
+
+
+
+
+
+
+
+    // Protected methods
+
+    // Private methods
+    private static int GetScore(int baseScore, List<int> bonusList)
+    {
+        for (int i = 0; i < bonusList.Count; i++)
+        {
+            baseScore += bonusList[i];
+        }
+
+        return baseScore;
+    }
+
+
+
+
+
+    private static int GetModifier(int score)
+    {
+        return (int)Math.Floor((score - 10) / 2f);
     }
 }

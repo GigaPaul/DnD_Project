@@ -4,11 +4,23 @@ using System.Collections.Generic;
 
 public partial class Language
 {
+    // = CONST =
+    public static readonly Dictionary<Family, Language> global = new();
+    public static readonly List<Language> standardLanguages = new();
+
+
+
+
+
+    // = VARIABLES =
     public string name;
     public Script? script;
 
-    public static Dictionary<Family, Language> Global;
 
+
+
+
+    // = ENUMS =
     public enum Family
     {
         common,
@@ -39,27 +51,40 @@ public partial class Language
         draconic
     }
 
+
+
+
+
+    // = CONSTRUCTORS =
     static Language()
     {
-        Global = new()
-        {
-            { Family.common,        new("Common",       Script.common) },
-            { Family.dwarvish,      new("Dwarvish",     Script.dwarvish) },
-            { Family.elvish,        new("Elvish",       Script.elvish) },
-            { Family.giant,         new("Giant",        Script.dwarvish) },
-            { Family.gnomish,       new("Gnomish",      Script.dwarvish) },
-            { Family.goblin,        new("Goblin",       Script.dwarvish) },
-            { Family.halfling,      new("Halfling",     Script.common) },
-            { Family.orc,           new("Orc",          Script.dwarvish) },
-            { Family.abyssal,       new("Abyssal",      Script.infernal) },
-            { Family.celestial,     new("Celestial",    Script.celestial) },
-            { Family.draconic,      new("Draconic",     Script.draconic) },
-            { Family.deepSpeech,    new("Deep Speech") },
-            { Family.infernal,      new("Infernal",     Script.infernal) },
-            { Family.primordial,    new("Primordial",   Script.dwarvish) },
-            { Family.sylvan,        new("Sylvan",       Script.elvish) },
-            { Family.undercommon,   new("Undercommon",  Script.elvish) },
-        };
+        // Languages
+        global.Add(Family.common,       new("Common",       Script.common));
+        global.Add(Family.dwarvish,     new("Dwarvish",     Script.dwarvish));
+        global.Add(Family.elvish,       new("Elvish",       Script.elvish));
+        global.Add(Family.giant,        new("Giant",        Script.dwarvish));
+        global.Add(Family.gnomish,      new("Gnomish",      Script.dwarvish));
+        global.Add(Family.goblin,       new("Goblin",       Script.dwarvish));
+        global.Add(Family.halfling,     new("Halfling",     Script.common));
+        global.Add(Family.orc,          new("Orc",          Script.dwarvish));
+        global.Add(Family.abyssal,      new("Abyssal",      Script.infernal));
+        global.Add(Family.celestial,    new("Celestial",    Script.celestial));
+        global.Add(Family.draconic,     new("Draconic",     Script.draconic));
+        global.Add(Family.deepSpeech,   new("Deep Speech"));
+        global.Add(Family.infernal,     new("Infernal",     Script.infernal));
+        global.Add(Family.primordial,   new("Primordial",   Script.dwarvish));
+        global.Add(Family.sylvan,       new("Sylvan",       Script.elvish));
+        global.Add(Family.undercommon,  new("Undercommon",  Script.elvish));
+
+        // Standard Languages
+        standardLanguages.Add(global[Family.common]);
+        standardLanguages.Add(global[Family.dwarvish]);
+        standardLanguages.Add(global[Family.elvish]);
+        standardLanguages.Add(global[Family.giant]);
+        standardLanguages.Add(global[Family.gnomish]);
+        standardLanguages.Add(global[Family.goblin]);
+        standardLanguages.Add(global[Family.halfling]);
+        standardLanguages.Add(global[Family.orc]);
     }
 
     public Language(string name, Script? script = null)
@@ -69,4 +94,12 @@ public partial class Language
     }
 
 
+
+
+    // = METHODS =
+    // Public methods
+    public bool IsStandard()
+    {
+        return standardLanguages.Contains(this);
+    }
 }
