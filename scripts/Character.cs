@@ -9,7 +9,6 @@ public partial class Character : Node3D
 	public override void _Ready()
 	{
 		statBlock = new("Roturier", charisma: 8);
-        GD.Print(statBlock.IsProficientIn(Masterable.Type.intimidation));
 
 		Masterable charisma = Masterable.Get(Masterable.Type.charisma);
 		GD.Print($"{charisma.name} : {statBlock.GetScore(Masterable.Type.charisma)} => {statBlock.GetModifier(Masterable.Type.charisma)}");

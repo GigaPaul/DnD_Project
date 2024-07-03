@@ -28,7 +28,7 @@ public partial class StatBlock
         };
 
 
-        int count = Enum.GetNames(typeof(Masterable)).Length;
+        int count = Enum.GetNames(typeof(Masterable.Type)).Length;
         List<Masterable.Type> isProficientIn = new()
         {
             { Masterable.Type.intimidation }
@@ -63,6 +63,10 @@ public partial class StatBlock
         return score;
     }
 
+
+
+
+
     public int GetAbilityScore(Masterable masterable)
     {
         int baseScore = capabilities[masterable];
@@ -72,6 +76,10 @@ public partial class StatBlock
 
         return score;
     }
+
+
+
+
 
     public int GetSkillScore(Masterable masterable)
     {
