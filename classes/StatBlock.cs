@@ -19,12 +19,12 @@ public partial class StatBlock
 
         capabilities = new()
         {
-            { Masterable.Get(Masterable.Type.strength), strength },
-            { Masterable.Get(Masterable.Type.dexterity), dexterity },
+            { Masterable.Get(Masterable.Type.strength),     strength },
+            { Masterable.Get(Masterable.Type.dexterity),    dexterity },
             { Masterable.Get(Masterable.Type.constitution), constitution },
             { Masterable.Get(Masterable.Type.intelligence), intelligence },
-            { Masterable.Get(Masterable.Type.wisdom), wisdom },
-            { Masterable.Get(Masterable.Type.charisma), charisma }
+            { Masterable.Get(Masterable.Type.wisdom),       wisdom },
+            { Masterable.Get(Masterable.Type.charisma),     charisma }
         };
 
 
