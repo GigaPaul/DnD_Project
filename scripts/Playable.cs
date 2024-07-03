@@ -3,6 +3,7 @@ using System;
 
 public partial class Playable : Character
 {
+    [Export]
 	public int level = 1;
 	public int ProficiencyBonus
 	{
