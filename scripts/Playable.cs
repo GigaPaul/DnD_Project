@@ -12,7 +12,7 @@ public partial class Playable : Character
 			return (int)(Math.Ceiling(level / 4f) + 1);
 		}
 	}
-	public Dictionary<Masterable.Type, bool> proficiencies
+	public Dictionary<Masterable.Type, bool> Proficiencies
     {
 		get
         {
@@ -22,7 +22,7 @@ public partial class Playable : Character
 
 			if(background != null)
             {
-				List<Masterable.Type> backgroundProficiencies = background.proficiencies;
+				List<Masterable.Type> backgroundProficiencies = background.availableSkills;
 				proficiencies = proficiencies.Concat(backgroundProficiencies).ToList();
 			}
 
@@ -37,15 +37,15 @@ public partial class Playable : Character
 		}
     }
 	public int level = 1;
-	public Background background;
+	public Origin background;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GD.Print($"There are {Background.global.Count} backgrounds available.");
-		foreach (KeyValuePair<Background.Type, Background> entry in Background.global)
+		GD.Print($"There are {Origin.global.Count} backgrounds available.");
+		foreach (KeyValuePair<Origin.Type, Origin> entry in Origin.global)
 		{
-			GD.Print($"{entry.Key}, {entry.Value.name} has {entry.Value.proficiencies.Count} proficiencies.");
+			GD.Print($"{entry.Key}, {entry.Value.name} has {entry.Value.availableSkills.Count} proficiencies.");
 		}
 	}
 
