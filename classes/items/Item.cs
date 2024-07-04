@@ -1,14 +1,29 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Item
 {
+    public static readonly Dictionary<Type, Item> global = new();
+
     public string name;
-    public Masterable.Type? type;
+    public Masterable.Type? masterableType;
 
     public bool IsSkilled
     {
-        get { return type != null; }
+        get { return masterableType != null; }
+    }
+
+    public enum Type
+    {
+        backpack,
+        rapier
+    }
+
+    static Item()
+    {
+        global.Add(Type.backpack, new("Backpack"));
+        global.Add(Type.rapier, new Equippable("Rapier"));
     }
 
     public Item(string name)
@@ -16,9 +31,9 @@ public partial class Item
         this.name = name;
     }
 
-    public Item(string name, Masterable.Type type)
+    public Item(string name, Masterable.Type masterableType)
     {
         this.name = name;
-        this.type = type;
+        this.masterableType = masterableType;
     }
 }

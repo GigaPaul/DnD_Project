@@ -42,11 +42,11 @@ public partial class Playable : Character
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GD.Print($"There are {Origin.global.Count} backgrounds available.");
-		foreach (KeyValuePair<Origin.Type, Origin> entry in Origin.global)
-		{
-			GD.Print($"{entry.Key}, {entry.Value.name} has {entry.Value.availableSkills.Count} proficiencies.");
-		}
+		Item Backpack = Item.global[Item.Type.backpack];
+		GD.Print(Backpack.name);
+
+		Equippable Rapier = Item.global[Item.Type.rapier] as Equippable;
+		GD.Print($"{Rapier.name} : {Rapier.damages}");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

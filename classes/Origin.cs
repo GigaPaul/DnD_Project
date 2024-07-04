@@ -6,10 +6,12 @@ public partial class Origin
 {
     public static readonly Dictionary<Type, Origin> global = new();
 
-
+#nullable enable
     public string name;
     public List<Masterable.Type> availableSkills = new();
     public List<Masterable.Type> availaibleTools = new();
+    public Package? equipment;
+#nullable disable
 
     public enum Type
     {
