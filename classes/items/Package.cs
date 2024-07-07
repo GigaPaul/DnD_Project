@@ -5,8 +5,10 @@ using System.Collections.Generic;
 public partial class Package
 {
     public string name;
-    public List<Item> items;
+    public List<Bundle> items = new();
+    public List<List<Bundle>> exclusiveItems = new();
     public static readonly Dictionary<Prefab, Package> prefabs = new();
+
 
     public enum Prefab
     {
@@ -38,70 +40,352 @@ public partial class Package
     static Package()
     {
         // Acolyte
-        prefabs.Add(Prefab.acolyte,         new("Acolyte"));
+        Package acolyte = new("Acolyte")
+        {
+            items =
+            {
+                new(Item.Type.holySymbol),
+                new(Item.Type.stickOfIncense, 5),
+                new(Item.Type.vestments),
+                new(Item.Type.commonClothes),
+                new(Item.Type.goldPiece, 15)
+            },
+
+            exclusiveItems =
+            {
+                new()
+                {
+                    { new(Item.Type.prayerBook) },
+                    { new(Item.Type.prayerWheel) }
+                }
+            }
+        };
+
+        prefabs.Add(Prefab.acolyte, acolyte);
+
+
+
+
 
         // Charlatan
-        prefabs.Add(Prefab.charlatan,       new("Charlatan"));
+        Package charlatan = new("Charlatan")
+        {
+            items =
+            {
+                new(Item.Type.fineClothes),
+                new(Item.Type.disguiseKit),
+                new(Item.Type.goldPiece, 15)
+            },
+
+            exclusiveItems =
+            {
+                new()
+                {
+                    { new(Item.Type.weightedDice) },
+                    { new(Item.Type.markedCards) },
+                    { new(Item.Type.fakeSignetRing) }
+                }
+            }
+        };
+
+        prefabs.Add(Prefab.charlatan, charlatan);
+
+
+
+
 
         // Criminal
-        prefabs.Add(Prefab.criminal,        new("Criminal"));
+        Package criminal = new("Criminal")
+        {
+            items =
+            {
+                new(Item.Type.crowbar),
+                new(Item.Type.commonClothes),
+                new(Item.Type.goldPiece, 15)
+            }
+        };
+
+        prefabs.Add(Prefab.criminal, criminal);
+
+
+
+
 
         // Entertainer
-        prefabs.Add(Prefab.entertainer,     new("Entertainer"));
+        Package entertainer = new("Entertainer")
+        {
+            items =
+            {
+                new(Item.Type.costumeClothes),
+                new(Item.Type.goldPiece, 15)
+            }
+        };
+
+        // Musical instruments
+        List<Bundle> musicalInstruments = new();
+        for (int i = 0; i < Item.musicalInstruments.Count; i++)
+        {
+            musicalInstruments.Add(new(Item.musicalInstruments[i]));
+        }
+        entertainer.exclusiveItems.Add(musicalInstruments);
+
+        // Favors of an admirer
+        List<Bundle> favorOfAnAdmirer = new();
+        for (int i = 0; i < Item.favorOfAnAdmirer.Count; i++)
+        {
+            favorOfAnAdmirer.Add(new(Item.favorOfAnAdmirer[i]));
+        }
+        entertainer.exclusiveItems.Add(favorOfAnAdmirer);
+
+        prefabs.Add(Prefab.entertainer, entertainer);
+
+
+
+
 
         // Folk hero
-        prefabs.Add(Prefab.folkHero,        new("Folk hero"));
+        Package folkHero = new("Folk hero")
+        {
+            items =
+            {
+                new(Item.Type.shovel),
+                new(Item.Type.ironPot),
+                new(Item.Type.commonClothes),
+                new(Item.Type.goldPiece, 10)
+            }
+        };
+
+        // Artisan's tools
+        List<Bundle> artisanTools = new();
+        for (int i = 0; i < Item.artisanTools.Count; i++)
+        {
+            artisanTools.Add(new(Item.artisanTools[i]));
+        }
+        folkHero.exclusiveItems.Add(artisanTools);
+
+        prefabs.Add(Prefab.folkHero, folkHero);
+
+
+
+
 
         // Gladiator
-        prefabs.Add(Prefab.gladiator,       new("Gladiator"));
+        prefabs.Add(Prefab.gladiator, entertainer);
+
+
+
+
 
         // Guild artisan
-        prefabs.Add(Prefab.guildArtisan,    new("Guild artisan"));
+        Package guildArtisan = new("Guild artisan")
+        {
+            items =
+            {
+                new(Item.Type.letterOfIntroduction),
+                new(Item.Type.travelerClothes),
+                new(Item.Type.goldPiece, 15)
+            }
+        };
+
+        guildArtisan.exclusiveItems.Add(artisanTools);
+
+        prefabs.Add(Prefab.guildArtisan, guildArtisan);
+
+
+
+
 
         // Hermit
-        prefabs.Add(Prefab.hermit,          new("Hermit"));
+        Package hermit = new("Hermit")
+        {
+            items =
+            {
+                new(Item.Type.blanket),
+                new(Item.Type.commonClothes),
+                new(Item.Type.herbalismKit),
+                new(Item.Type.goldPiece, 5)
+            }
+        };
+
+        prefabs.Add(Prefab.hermit, hermit);
+
+
+
+
 
         // Knight
-        prefabs.Add(Prefab.knight,          new("Knight"));
+        Package noble = new("Noble")
+        {
+            items =
+            {
+                new(Item.Type.fineClothes),
+                new(Item.Type.signetRing),
+                new(Item.Type.scrollOfPedigree),
+                new(Item.Type.goldPiece, 25)
+            }
+        };
+
+        prefabs.Add(Prefab.knight, noble);
+
+
+
+
 
         // Noble
-        prefabs.Add(Prefab.noble,           new("Noble"));
+        prefabs.Add(Prefab.noble, noble);
+
+
+
+
 
         // Outlander
-        prefabs.Add(Prefab.outlander,       new("Outlander"));
+        Package outlander = new("Outlander")
+        {
+            items =
+            {
+                new(Item.Type.staff),
+                new(Item.Type.huntingTrap),
+                new(Item.Type.huntingTrophy),
+                new(Item.Type.travelerClothes),
+                new(Item.Type.goldPiece, 10)
+            }
+        };
+
+        prefabs.Add(Prefab.outlander, outlander);
+
+
+
+
 
         // Pirate
-        prefabs.Add(Prefab.pirate,          new("Pirate"));
+        Package sailor = new("Sailor")
+        {
+            items =
+            {
+                new(Item.Type.club),
+                new(Item.Type.ropeSilk),
+                new(Item.Type.luckyCharm),
+                new(Item.Type.commonClothes),
+                new(Item.Type.goldPiece, 10)
+            }
+        };
+
+        prefabs.Add(Prefab.pirate, sailor);
+
+
+
+
 
         // Sage
-        prefabs.Add(Prefab.sage,            new("Sage"));
+        Package sage = new("Sage")
+        {
+            items =
+            {
+                new(Item.Type.quill),
+                new(Item.Type.smallKnife),
+                new(Item.Type.commonClothes),
+                new(Item.Type.goldPiece, 10)
+            }
+        };
+
+        prefabs.Add(Prefab.sage, sage);
+
+
+
+
 
         // Sailor
-        prefabs.Add(Prefab.sailor,          new("Sailor"));
+        prefabs.Add(Prefab.sailor, sailor);
+
+
+
+
 
         // Soldier
-        prefabs.Add(Prefab.soldier,         new("Soldier"));
+        Package soldier = new("Soldier")
+        {
+            items =
+            {
+                new(Item.Type.insignaOfRank),
+                new(Item.Type.battleTrophy),
+                new(Item.Type.commonClothes),
+                new(Item.Type.goldPiece, 10)
+            },
+
+            exclusiveItems =
+            {
+                new()
+                {
+                    new(Item.Type.playingCardSet),
+                    new(Item.Type.diceSet)
+                }
+            }
+        };
+
+        prefabs.Add(Prefab.soldier, soldier);
+
+
+
+
 
         // Urchin
-        prefabs.Add(Prefab.urchin,          new("Urchin"));
+        Package urchin = new("Urchin")
+        {
+            items =
+            {
+                new(Item.Type.smallKnife),
+                new(Item.Type.commonClothes),
+                new(Item.Type.goldPiece, 10)
+            }
+        };
+
+        prefabs.Add(Prefab.urchin, urchin);
+
+
+
+
 
         // Burglar's pack
         prefabs.Add(Prefab.burglarPack,     new("Burglar's pack"));
 
+
+
+
+
         // Diplomat's pack
         prefabs.Add(Prefab.diplomatPack,    new("Diplomat's pack"));
+
+
+
+
 
         // Dungeoneer's pack
         prefabs.Add(Prefab.dungeoneerPack,  new("Dungeoneer's pack"));
 
+
+
+
+
         // Entertainer's pack
         prefabs.Add(Prefab.entertainerPack, new("Entertainer's pack"));
+
+
+
+
 
         // Explorer's pack
         prefabs.Add(Prefab.explorerPack,    new("Explorer's pack"));
 
+
+
+
+
         // Priest's pack
         prefabs.Add(Prefab.priestPack,      new("Priest's pack"));
+
+
+
+
 
         // Scholar's pack
         prefabs.Add(Prefab.scholarPack,     new("Scholar's pack"));

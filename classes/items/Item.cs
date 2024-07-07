@@ -5,9 +5,21 @@ using System.Collections.Generic;
 public partial class Item
 {
     public static readonly Dictionary<Type, Item> global = new();
+    public static readonly List<Type> musicalInstruments = new();
+    public static readonly List<Type> favorOfAnAdmirer = new();
+    public static readonly List<Type> artisanTools = new();
+
+    public bool Stackable
+    {
+        get {
+            return stackSize > 1;
+        }
+    }
 
     public string name;
     public Masterable.Type? masterableType;
+    public int stackSize;
+
 
     public bool IsSkilled
     {
@@ -17,6 +29,13 @@ public partial class Item
     public enum Type
     {
         // = Armor =
+        // Clothing
+        commonClothes,
+        costumeClothes,
+        fineClothes,
+        robes,
+        travelerClothes,
+        vestments,
         // Light armor
         padded,
         leather,
@@ -73,6 +92,13 @@ public partial class Item
         warhammer,
         whip,
 
+        // = Money =
+        copperPiece,
+        silverPiece,
+        electrumPiece,
+        goldPiece,
+        platinumPiece,
+
         // = Adventuring gear =
         abacus,
         ammunition,
@@ -81,6 +107,7 @@ public partial class Item
         ballBearings,
         barrel,
         basket,
+        battleTrophy,
         bedroll,
         bell,
         blanket,
@@ -94,10 +121,6 @@ public partial class Item
         chalk,
         chest,
         climberKit,
-        commonClothes,
-        costumeClothes,
-        fineClothes,
-        travelerClothes,
         componentPouch,
         crowbar,
         druidicFocus,
@@ -110,13 +133,18 @@ public partial class Item
         holySymbol,
         hourglass,
         huntingTrap,
+        huntingTrophy,
         inkPen,
+        insignaOfRank,
+        ironPot,
         jug,
         ladder,
         lamp,
         lanternBullseye,
         lanternHooded,
+        letterOfIntroduction,
         lockItem,
+        luckyCharm,
         magnifyingGlass,
         manacles,
         messKit,
@@ -129,20 +157,27 @@ public partial class Item
         pot,
         potionOfHealing,
         pouch,
+        prayerBook,
+        prayerWheel,
+        quill,
         quiver,
         ramPortable,
         rations,
-        robes,
+        ropeSilk,
         sack,
         scaleMerchant,
+        scrollOfPedigree,
         sealingWax,
         shovel,
         signalWhistle,
         signetRing,
+        smallKnife,
         soap,
         spellBook,
         spikes,
         spyglass,
+        staff,
+        stickOfIncense,
         tent,
         tinderbox,
         torch,
@@ -192,6 +227,14 @@ public partial class Item
         navigatorTools,
         poisonerKit,
         thieveTools,
+        // Con tools
+        weightedDice,
+        markedCards,
+        fakeSignetRing,
+        // Favor of an admirer
+        loveLetter,
+        lockOfHair,
+        trinket,
         // Land vehicles
         camel,
         donkey,
@@ -227,17 +270,51 @@ public partial class Item
 
     static Item()
     {
+        // Musical instruments
+        musicalInstruments.Add(Type.bagPipes);
+        musicalInstruments.Add(Type.drum);
+        musicalInstruments.Add(Type.dulcimer);
+        musicalInstruments.Add(Type.flute);
+        musicalInstruments.Add(Type.lute);
+        musicalInstruments.Add(Type.lyre);
+        musicalInstruments.Add(Type.horn);
+        musicalInstruments.Add(Type.panFlute);
+        musicalInstruments.Add(Type.shawm);
+        musicalInstruments.Add(Type.viol);
 
+        // Favor of an admirer
+        favorOfAnAdmirer.Add(Type.loveLetter);
+        favorOfAnAdmirer.Add(Type.lockOfHair);
+        favorOfAnAdmirer.Add(Type.trinket);
+
+        // Artisan's tools
+        artisanTools.Add(Type.alchemistSupplies);
+        artisanTools.Add(Type.brewerSupplies);
+        artisanTools.Add(Type.CalligrapherSupplies);
+        artisanTools.Add(Type.carpenterTools);
+        artisanTools.Add(Type.cartographerTools);
+        artisanTools.Add(Type.cobblerTools);
+        artisanTools.Add(Type.jewelerTools);
+        artisanTools.Add(Type.leatherworkerTools);
+        artisanTools.Add(Type.masonTools);
+        artisanTools.Add(Type.painterSupplies);
+        artisanTools.Add(Type.potterTools);
+        artisanTools.Add(Type.smithTools);
+        artisanTools.Add(Type.tinkerTools);
+        artisanTools.Add(Type.weaverTools);
+        artisanTools.Add(Type.woodcarverTools);
     }
 
-    public Item(string name)
+    public Item(string name, int stackSize = 1)
     {
         this.name = name;
+        this.stackSize = stackSize;
     }
 
-    public Item(string name, Masterable.Type masterableType)
+    public Item(string name, Masterable.Type masterableType, int stackSize = 1)
     {
         this.name = name;
         this.masterableType = masterableType;
+        this.stackSize = stackSize;
     }
 }
