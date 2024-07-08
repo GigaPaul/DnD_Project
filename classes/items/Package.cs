@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public partial class Package
 {
     public string name;
+    public int? goldPrice;
     public List<Bundle> items = new();
     public List<List<Bundle>> exclusiveItems = new();
     public static readonly Dictionary<Prefab, Package> prefabs = new();
@@ -346,53 +347,161 @@ public partial class Package
 
 
         // Burglar's pack
-        prefabs.Add(Prefab.burglarPack,     new("Burglar's pack"));
+        Package burglarPack = new("Burglar's pack", 16)
+        {
+            items =
+            {
+                new(Item.Type.backpack),
+                new(Item.Type.ballBearings, 1000),
+                new(Item.Type.stringItem),
+                new(Item.Type.bell),
+                new(Item.Type.candle, 5),
+                new(Item.Type.crowbar),
+                new(Item.Type.hammer),
+                new(Item.Type.piton, 10),
+                new(Item.Type.lanternHooded),
+                new(Item.Type.rations, 5),
+                new(Item.Type.tinderbox),
+                new(Item.Type.waterskin),
+                new(Item.Type.ropeHempen)
+            }
+        };
+
+        prefabs.Add(Prefab.burglarPack, burglarPack);
 
 
 
 
 
         // Diplomat's pack
-        prefabs.Add(Prefab.diplomatPack,    new("Diplomat's pack"));
+        Package diplomatPack = new("Diplomat's pack", 39)
+        {
+            items =
+            {
+                new(Item.Type.chest),
+                new(Item.Type.fineClothes),
+                new(Item.Type.lamp),
+                new(Item.Type.paper, 5),
+                new(Item.Type.sealingWax),
+                new(Item.Type.soap)
+            }
+        };
+
+        prefabs.Add(Prefab.diplomatPack, diplomatPack);
 
 
 
 
 
         // Dungeoneer's pack
-        prefabs.Add(Prefab.dungeoneerPack,  new("Dungeoneer's pack"));
+        Package dungeoneerPack = new("Dungeoneer's pack", 12)
+        {
+            items =
+            {
+                new(Item.Type.backpack),
+                new(Item.Type.crowbar),
+                new(Item.Type.hammer),
+                new(Item.Type.piton, 10),
+                new(Item.Type.torch, 10),
+                new(Item.Type.tinderbox),
+                new(Item.Type.rations, 10),
+                new(Item.Type.waterskin),
+                new(Item.Type.ropeHempen)
+            }
+        };
+
+        prefabs.Add(Prefab.dungeoneerPack, dungeoneerPack);
 
 
 
 
 
         // Entertainer's pack
-        prefabs.Add(Prefab.entertainerPack, new("Entertainer's pack"));
+        Package entertainerPack = new("Entertainer's pack", 40)
+        {
+            items =
+            {
+                new(Item.Type.backpack),
+                new(Item.Type.bedroll),
+                new(Item.Type.costumeClothes, 2),
+                new(Item.Type.candle, 5),
+                new(Item.Type.rations, 5),
+                new(Item.Type.waterskin),
+                new(Item.Type.disguiseKit)
+            }
+        };
+
+        prefabs.Add(Prefab.entertainerPack, entertainerPack);
 
 
 
 
 
         // Explorer's pack
-        prefabs.Add(Prefab.explorerPack,    new("Explorer's pack"));
+        Package explorerPack = new("Explorer's pack", 10)
+        {
+            items =
+            {
+                new(Item.Type.backpack),
+                new(Item.Type.bedroll),
+                new(Item.Type.messKit),
+                new(Item.Type.tinderbox),
+                new(Item.Type.torch, 10),
+                new(Item.Type.rations, 10),
+                new(Item.Type.waterskin),
+                new(Item.Type.ropeHempen)
+            }
+        };
+
+        prefabs.Add(Prefab.explorerPack, explorerPack);
 
 
 
 
 
         // Priest's pack
-        prefabs.Add(Prefab.priestPack,      new("Priest's pack"));
+        Package priestPack = new("Priest's pack", 19)
+        {
+            items =
+            {
+                new(Item.Type.backpack),
+                new(Item.Type.blanket),
+                new(Item.Type.candle, 10),
+                new(Item.Type.tinderbox),
+                new(Item.Type.almsBox),
+                new(Item.Type.stickOfIncense, 2),
+                new(Item.Type.censer),
+                new(Item.Type.vestments),
+                new(Item.Type.rations, 2),
+                new(Item.Type.waterskin)
+            }
+        };
+
+        prefabs.Add(Prefab.priestPack, priestPack);
 
 
 
 
 
         // Scholar's pack
-        prefabs.Add(Prefab.scholarPack,     new("Scholar's pack"));
+        Package scholarPack = new("Scholar's pack", 40)
+        {
+            items =
+            {
+                new(Item.Type.backpack),
+                new(Item.Type.bookOfLore),
+                new(Item.Type.inkPen),
+                new(Item.Type.parchment, 10),
+                new(Item.Type.smallKnife)
+            }
+        };
+
+        prefabs.Add(Prefab.scholarPack, scholarPack);
     }
 
-    public Package(string name)
+    public Package(string name, int? goldPrice = null)
     {
         this.name = name;
+        this.goldPrice = goldPrice;
     }
 }
